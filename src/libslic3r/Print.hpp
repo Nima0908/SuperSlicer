@@ -47,7 +47,7 @@
 #include <functional>
 #include <optional>
 #include <set>
-#include <tcbspan/span.hpp>
+#include "../tcbspan/span.hpp"
 
 namespace Slic3r {
 

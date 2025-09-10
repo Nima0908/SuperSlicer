@@ -13,7 +13,7 @@
 #include "FillAdaptive.hpp"
 
 // for indexed_triangle_set
-#include <admesh/stl.h>
+#include "../admesh/stl.h"
 
 #include <cstdlib>
 #include <cmath>

@@ -2,12 +2,12 @@
 #define slic3r_GCode_FanMover_hpp_
 
 
-#include "libslic3r/ExtrusionEntity.hpp"
-#include "libslic3r/GCodeReader.hpp"
-#include "libslic3r/GCode/GCodeWriter.hpp"
-#include "libslic3r/Point.hpp"
-#include "libslic3r/PrintConfig.hpp"
-#include "libslic3r/libslic3r.h"
+#include "../ExtrusionEntity.hpp"
+#include "../GCodeReader.hpp"
+#include "../GCode/GCodeWriter.hpp"
+#include "../Point.hpp"
+#include "../PrintConfig.hpp"
+#include "../libslic3r.h"
 
 #include <regex>
 

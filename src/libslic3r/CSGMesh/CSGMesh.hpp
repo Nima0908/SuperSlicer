@@ -5,10 +5,10 @@
 #ifndef CSGMESH_HPP
 #define CSGMESH_HPP
 
-#include "libslic3r/Point.hpp"
+#include "../Point.hpp"
 
-#include <libslic3r/AnyPtr.hpp>
-#include <libslic3r/TriangleMesh.hpp>
+#include "../AnyPtr.hpp"
+#include "../TriangleMesh.hpp"
 
 namespace Slic3r { namespace csg {
 

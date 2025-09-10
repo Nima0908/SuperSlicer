@@ -5,7 +5,7 @@
 #ifndef SRC_LIBSLIC3R_GEOMETRY_CURVES_HPP_
 #define SRC_LIBSLIC3R_GEOMETRY_CURVES_HPP_
 
-#include "libslic3r/Point.hpp"
+#include "../Point.hpp"
 #include "Bicubic.hpp"
 
 #include <iostream>

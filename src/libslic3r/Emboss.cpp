@@ -12,16 +12,16 @@
 #include <ClipperUtils.hpp> // union_ex + for boldness(polygon extend(offset))
 
 #define STB_TRUETYPE_IMPLEMENTATION // force following include to generate implementation
-#include "imgui/imstb_truetype.h" // stbtt_fontinfo
+#include "../imgui/imstb_truetype.h" // stbtt_fontinfo
 
 
 #include <Triangulation.hpp> // CGAL project
 
 // to heal shape
 #include "libslic3r.h"
-#include "libslic3r/AABBTreeLines.hpp" // search structure for found close points
-#include "libslic3r/Line.hpp"
-#include "libslic3r/BoundingBox.hpp"
+#include "AABBTreeLines.hpp" // search structure for found close points
+#include "Line.hpp"
+#include "BoundingBox.hpp"
 #include "Emboss.hpp"
 #include "ExPolygonsIndex.hpp"
 #include "IntersectionPoints.hpp"

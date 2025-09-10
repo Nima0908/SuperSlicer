@@ -1,8 +1,8 @@
 #ifndef slic3r_VoronoiUtils_hpp_
 #define slic3r_VoronoiUtils_hpp_
 
-#include "libslic3r/Geometry/Voronoi.hpp"
-#include "libslic3r/Arachne/utils/PolygonsSegmentIndex.hpp"
+#include "Voronoi.hpp"
+#include "../Arachne/utils/PolygonsSegmentIndex.hpp"
 
 using VD = Slic3r::Geometry::VoronoiDiagram;
 

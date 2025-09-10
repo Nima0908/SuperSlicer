@@ -6,9 +6,9 @@
 #define SRC_LIBSLIC3R_ALGORITHM_REGION_EXPANSION_HPP_
 
 #include <cstdint>
-#include <libslic3r/Point.hpp>
-#include <libslic3r/Polygon.hpp>
-#include <libslic3r/ExPolygon.hpp>
+#include "../Point.hpp"
+#include "../Polygon.hpp"
+#include "../ExPolygon.hpp"
 
 namespace Slic3r {
 namespace Algorithm {

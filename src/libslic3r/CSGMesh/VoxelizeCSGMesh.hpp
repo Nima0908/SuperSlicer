@@ -9,8 +9,8 @@
 #include <stack>
 
 #include "CSGMesh.hpp"
-#include "libslic3r/OpenVDBUtils.hpp"
-#include "libslic3r/Execution/ExecutionTBB.hpp"
+#include "../OpenVDBUtils.hpp"
+#include "../Execution/ExecutionTBB.hpp"
 
 namespace Slic3r { namespace csg {
 

@@ -2,7 +2,7 @@
 ///|/
 ///|/ PrusaSlicer is released under the terms of the AGPLv3 or higher
 ///|/
-#include "clipper/clipper_z.hpp"
+#include "../clipper/clipper_z.hpp"
 
 #include "libslic3r.h"
 #include "ClipperUtils.hpp"

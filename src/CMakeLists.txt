@@ -6,14 +6,47 @@ if (NOT APPLE)
     add_subdirectory(test-utils)
 endif ()
 add_subdirectory(admesh)
-add_subdirectory(avrdude)
+# add_subdirectory(avrdude)
+# Use system avrdude instead of bundled
+find_program(AVRDUDE_EXECUTABLE NAMES avrdude REQUIRED)
+
+if(NOT AVRDUDE_EXECUTABLE)
+    message(FATAL_ERROR "avrdude not found on your system. Please install it.")
+endif()
+
+message(STATUS "Found avrdude: ${AVRDUDE_EXECUTABLE}")
+
 # boost/nowide
-add_subdirectory(boost)
+# add_subdirectory(boost)
+find_package(Boost REQUIRED COMPONENTS system filesystem thread)
+
 add_subdirectory(clipper)
-add_subdirectory(miniz)
-add_subdirectory(glu-libtess)
+
+# add_subdirectory(miniz)
+find_package(miniz REQUIRED)
+
+# add_subdirectory(glu-libtess)
+find_package(GLU REQUIRED)
+
 add_subdirectory(semver)
-add_subdirectory(libigl)
+#find_package(semver REQUIRED)
+
+# add_subdirectory(libigl)
+#find_package(Libigl REQUIRED)
+
+# Use system libigl instead of bundled
+find_path(LIBIGL_INCLUDE_DIR NAMES igl/readOBJ.h)
+
+if(NOT LIBIGL_INCLUDE_DIR)
+    message(FATAL_ERROR "libigl headers not found. Please install libigl-dev or keep the bundled version.")
+endif()
+
+message(STATUS "Found libigl: ${LIBIGL_INCLUDE_DIR}")
+
+add_library(libigl INTERFACE)
+target_include_directories(libigl INTERFACE ${LIBIGL_INCLUDE_DIR})
+
+
 add_subdirectory(hints)
 add_subdirectory(qoi)
 add_subdirectory(libnest2d)
@@ -36,12 +69,39 @@ endif ()
 
 if (SLIC3R_GUI)
     add_subdirectory(imgui)
-    add_subdirectory(hidapi)
-    include_directories(hidapi/include)
-    add_subdirectory(exif)
-    include_directories(exif/include)
-    add_subdirectory(angelscript)
-    # include_directories(angelscript/include)
+
+    # add_subdirectory(hidapi)
+    find_package(hidapi REQUIRED)
+
+    # add_subdirectory(exif)
+    # find_package(EXIF REQUIRED)
+    
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(EXIF REQUIRED libexif)
+
+    add_library(exif INTERFACE)
+    target_include_directories(exif INTERFACE ${EXIF_INCLUDE_DIRS})
+    target_link_libraries(exif INTERFACE ${EXIF_LIBRARIES})
+
+    message(STATUS "Found libexif: ${EXIF_LIBRARIES}")
+
+
+    # add_subdirectory(angelscript)
+    # find_package(Angelscript REQUIRED)
+
+    find_path(ANGELSCRIPT_INCLUDE_DIR NAMES angelscript.h PATH_SUFFIXES angelscript)
+    find_library(ANGELSCRIPT_LIBRARY NAMES angelscript)
+
+    if(NOT ANGELSCRIPT_INCLUDE_DIR OR NOT ANGELSCRIPT_LIBRARY)
+        message(FATAL_ERROR "AngelScript not found. Please install it or enable bundled version.")
+    endif()
+
+    add_library(angelscript INTERFACE)
+    target_include_directories(angelscript INTERFACE ${ANGELSCRIPT_INCLUDE_DIR})
+    target_link_libraries(angelscript INTERFACE ${ANGELSCRIPT_LIBRARY})
+
+    message(STATUS "Found AngelScript: ${ANGELSCRIPT_LIBRARY}")
+
 
     if(WIN32)
         message(STATUS "WXWIN environment set to: $ENV{WXWIN}")
@@ -56,7 +116,8 @@ if (SLIC3R_GUI)
 
     if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
         set (wxWidgets_CONFIG_OPTIONS "--toolkit=gtk${SLIC3R_GTK}")
-            endif ()
+    endif ()
+
     if(WIN32)
         find_package(wxWidgets 3.2 MODULE REQUIRED COMPONENTS base core adv html gl stc scintilla)
     else()
@@ -73,6 +134,7 @@ if (SLIC3R_GUI)
 
     find_package(JPEG MODULE QUIET)
     find_package(NanoSVG REQUIRED)
+    find_package(EXPAT REQUIRED)
 
     string(REGEX MATCH "wxpng" WX_PNG_BUILTIN ${wxWidgets_LIBRARIES})
     if (PNG_FOUND AND NOT WX_PNG_BUILTIN)
@@ -92,26 +154,20 @@ if (SLIC3R_GUI)
         list(APPEND wxWidgets_LIBRARIES libexpat)
     endif ()
     
-    # This is an issue in the new wxWidgets cmake build, doesn't deal with librt
     find_library(LIBRT rt)
     if(LIBRT)
         list(APPEND wxWidgets_LIBRARIES ${LIBRT})
     endif()
 
-    # This fixes a OpenGL linking issue on OSX. wxWidgets cmake build includes
-    # wrong libs for opengl in the link line and it does not link to it by himself.
-    # libslic3r_gui will link to opengl anyway, so lets override wx
     list(FILTER wxWidgets_LIBRARIES EXCLUDE REGEX OpenGL)
     
     if (UNIX AND NOT APPLE)
         list(APPEND wxWidgets_LIBRARIES X11 wayland-client wayland-egl EGL)
     endif ()
-#    list(REMOVE_ITEM wxWidgets_LIBRARIES oleacc)
     message(STATUS "wx libs: ${wxWidgets_LIBRARIES}")
 
     add_subdirectory(slic3r)
 endif()
-
 
 # Create a Slic3r executable
 # Process mainfests for various platforms.
@@ -308,3 +364,4 @@ else ()
     # Install the symlink for gcodeviewer
     install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${SLIC3R_APP_CMD} ${GCODEVIEWER_APP_CMD} WORKING_DIRECTORY \$ENV{DESTDIR}/${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR})")
 endif ()
+

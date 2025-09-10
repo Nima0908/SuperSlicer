@@ -5,7 +5,7 @@
 #ifndef SLA_SUPPORTPOINT_HPP
 #define SLA_SUPPORTPOINT_HPP
 
-#include <libslic3r/Point.hpp>
+#include "../Point.hpp"
 
 namespace Slic3r {
 

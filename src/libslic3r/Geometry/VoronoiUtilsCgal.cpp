@@ -6,10 +6,10 @@
 #include <CGAL/Arr_segment_traits_2.h>
 #include <CGAL/Surface_sweep_2_algorithms.h>
 
-#include "libslic3r/Geometry/Voronoi.hpp"
-#include "libslic3r/Geometry/VoronoiUtils.hpp"
-#include "libslic3r/Arachne/utils/PolygonsSegmentIndex.hpp"
-#include "libslic3r/MultiMaterialSegmentation.hpp"
+#include "Voronoi.hpp"
+#include "VoronoiUtils.hpp"
+#include "../Arachne/utils/PolygonsSegmentIndex.hpp"
+#include "../MultiMaterialSegmentation.hpp"
 
 #include "VoronoiUtilsCgal.hpp"
 

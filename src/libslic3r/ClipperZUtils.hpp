@@ -8,8 +8,8 @@
 #include <numeric>
 #include <vector>
 
-#include <clipper/clipper_z.hpp>
-#include <libslic3r/Point.hpp>
+#include "../clipper/clipper_z.hpp"
+#include "Point.hpp"
 
 namespace Slic3r {
 

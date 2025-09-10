@@ -5,7 +5,7 @@
 ///|/
 #include "Brim.hpp"
 
-#include "clipper/clipper_z.hpp"
+#include "../clipper/clipper_z.hpp"
 #include "ClipperUtils.hpp"
 #include "EdgeGrid.hpp"
 #include "ExtrusionEntityCollection.hpp"

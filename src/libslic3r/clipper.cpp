@@ -14,4 +14,4 @@
 // Override Slic3r::ClipperLib::IntPoint to Slic3r::Point
 #define CLIPPERLIB_INTPOINT_TYPE    Slic3r::Point
 
-#include <clipper/clipper.cpp>
+#include "../clipper/clipper.cpp"

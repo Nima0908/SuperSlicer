@@ -6,10 +6,10 @@
 #define SLA_HOLLOWING_HPP
 
 #include <memory>
-#include <libslic3r/TriangleMesh.hpp>
-#include <libslic3r/OpenVDBUtils.hpp>
-#include <libslic3r/SLA/JobController.hpp>
-#include <libslic3r/CSGMesh/VoxelizeCSGMesh.hpp>
+#include "../TriangleMesh.hpp"
+#include "../OpenVDBUtils.hpp"
+#include "../SLA/JobController.hpp"
+#include "../CSGMesh/VoxelizeCSGMesh.hpp"
 
 namespace Slic3r {
 

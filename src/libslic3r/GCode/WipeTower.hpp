@@ -12,8 +12,8 @@
 #include <string>
 #include <utility>
 
-#include "libslic3r/Point.hpp"
-#include "libslic3r/Config.hpp"
+#include "../Point.hpp"
+#include "../Config.hpp"
 
 namespace Slic3r
 {

@@ -8,12 +8,12 @@
 #include "AABBTreeLines.hpp"
 #include "BoundingBox.hpp"
 #include "Line.hpp"
-#include "ankerl/unordered_dense.h"
+#include "../ankerl/unordered_dense.h"
 #include <algorithm>
 #include <iterator>
-#include <libslic3r/Point.hpp>
-#include <libslic3r/Polygon.hpp>
-#include <libslic3r/ExPolygon.hpp>
+#include "../Point.hpp"
+#include "../Polygon.hpp"
+#include "../ExPolygon.hpp"
 #include <limits>
 #include <type_traits>
 #include <unordered_set>

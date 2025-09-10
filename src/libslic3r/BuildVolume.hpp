@@ -9,7 +9,7 @@
 #include "Geometry/Circle.hpp"
 #include "Polygon.hpp"
 #include "BoundingBox.hpp"
-#include <admesh/stl.h>
+#include "../admesh/stl.h"
 
 #include <string_view>
 

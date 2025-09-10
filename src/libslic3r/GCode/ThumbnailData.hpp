@@ -6,7 +6,7 @@
 #define slic3r_ThumbnailData_hpp_
 
 #include <vector>
-#include "libslic3r/Point.hpp"
+#include "../Point.hpp"
 
 namespace Slic3r {
 

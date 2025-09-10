@@ -7,9 +7,9 @@
 
 #include <vector>
 #include <set>
-#include <libslic3r/Point.hpp>
-#include <libslic3r/Polygon.hpp>
-#include <libslic3r/ExPolygon.hpp>
+#include "Point.hpp"
+#include "Polygon.hpp"
+#include "ExPolygon.hpp"
 
 namespace Slic3r {
 

@@ -4,10 +4,10 @@
 ///|/
 #include "RegionExpansion.hpp"
 
-#include <libslic3r/AABBTreeIndirect.hpp>
-#include <libslic3r/ClipperZUtils.hpp>
-#include <libslic3r/ClipperUtils.hpp>
-#include <libslic3r/Utils.hpp>
+#include "../AABBTreeIndirect.hpp"
+#include "../ClipperZUtils.hpp"
+#include "../ClipperUtils.hpp"
+#include "../Utils.hpp"
 
 #include <numeric>
 

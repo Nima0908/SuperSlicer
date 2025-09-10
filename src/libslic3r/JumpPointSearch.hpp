@@ -7,10 +7,10 @@
 
 #include "BoundingBox.hpp"
 #include "Polygon.hpp"
-#include "libslic3r/Layer.hpp"
-#include "libslic3r/Point.hpp"
-#include "libslic3r/Polyline.hpp"
-#include "libslic3r/libslic3r.h"
+#include "Layer.hpp"
+#include "Point.hpp"
+#include "Polyline.hpp"
+#include "libslic3r.h"
 #include <unordered_map>
 #include <unordered_set>
 

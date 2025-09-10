@@ -14,7 +14,7 @@
 #include "../ExtrusionEntity.hpp"
 #include "../ExtrusionEntityCollection.hpp"
 #include "../Geometry/MedialAxis.hpp"
-#include "Arachne/WallToolPaths.hpp"
+#include "../Arachne/WallToolPaths.hpp"
 
 #include "FillConcentric.hpp"
 

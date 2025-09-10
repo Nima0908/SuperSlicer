@@ -8,8 +8,8 @@
 #include <memory>
 #include <vector>
 
-#include <libslic3r/Point.hpp>
-#include <libslic3r/TriangleMesh.hpp>
+#include "Point.hpp"
+#include "TriangleMesh.hpp"
 
 // There is an implementation of a hole-aware raycaster that was eventually
 // not used in production version. It is now hidden under following define

@@ -5,7 +5,7 @@
 #ifndef SRC_LIBSLIC3R_SHORTEDGECOLLAPSE_HPP_
 #define SRC_LIBSLIC3R_SHORTEDGECOLLAPSE_HPP_
 
-#include "libslic3r/TriangleMesh.hpp"
+#include "TriangleMesh.hpp"
 
 namespace Slic3r{
 

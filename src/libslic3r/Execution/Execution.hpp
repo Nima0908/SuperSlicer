@@ -11,7 +11,7 @@
 #include <iterator>
 #include <algorithm>
 
-#include "libslic3r/libslic3r.h"
+#include "../libslic3r.h"
 
 namespace Slic3r {
 

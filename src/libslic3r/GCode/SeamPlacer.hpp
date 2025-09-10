@@ -10,13 +10,14 @@
 #include <memory>
 #include <atomic>
 
-#include "libslic3r/libslic3r.h"
-#include "libslic3r/ExtrusionEntity.hpp"
-#include "libslic3r/Polygon.hpp"
-#include "libslic3r/PrintConfig.hpp"
-#include "libslic3r/BoundingBox.hpp"
-#include "libslic3r/AABBTreeIndirect.hpp"
-#include "libslic3r/KDTreeIndirect.hpp"
+#include "../libslic3r.h"
+#include "../ExtrusionEntity.hpp"
+#include "../Polygon.hpp"
+#include "../PrintConfig.hpp"
+#include "../BoundingBox.hpp"
+#include "../AABBTreeIndirect.hpp"
+#include "../KDTreeIndirect.hpp"
+#include "../TriangleMesh.hpp"
 
 namespace Slic3r {
 

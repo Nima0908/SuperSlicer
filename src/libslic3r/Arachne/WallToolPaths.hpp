@@ -6,7 +6,7 @@
 
 #include <memory>
 
-#include <ankerl/unordered_dense.h>
+#include "../../ankerl/unordered_dense.h"
 
 #include "BeadingStrategy/BeadingStrategyFactory.hpp"
 #include "utils/ExtrusionLine.hpp"
