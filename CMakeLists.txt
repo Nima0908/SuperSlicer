@@ -502,16 +502,22 @@ include_directories(BEFORE SYSTEM ${EIGEN3_INCLUDE_DIR})
 
 # Find expat. We have our overriden FindEXPAT which exports libexpat target
 # no matter what.
-find_package(EXPAT REQUIRED)
-
 if (NOT TARGET libexpat)
-    add_library(libexpat INTERFACE)
-    
-    if (TARGET EXPAT::EXPAT )
-        target_link_libraries(libexpat INTERFACE EXPAT::EXPAT)
-    elseif(TARGET expat::expat)
-        target_link_libraries(libexpat INTERFACE expat::expat)
-    endif ()
+    if (TARGET EXPAT::EXPAT)
+        add_library(libexpat ALIAS EXPAT::EXPAT)
+    elseif (TARGET expat::expat)
+        add_library(libexpat ALIAS expat::expat)
+    else()
+        add_library(libexpat INTERFACE)
+        if (TARGET EXPAT::EXPAT)
+            target_link_libraries(libexpat INTERFACE EXPAT::EXPAT)
+        elseif (TARGET expat::expat)
+            target_link_libraries(libexpat INTERFACE expat::expat)
+        else()
+            target_link_libraries(libexpat INTERFACE ${EXPAT_LIBRARIES})
+            target_include_directories(libexpat INTERFACE ${EXPAT_INCLUDE_DIRS})
+        endif()
+    endif()
 endif()
 
 find_package(PNG REQUIRED)
