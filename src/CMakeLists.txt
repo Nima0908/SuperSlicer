@@ -7,22 +7,18 @@ if (NOT APPLE)
 endif ()
 add_subdirectory(admesh)
 add_subdirectory(avrdude)
-# boost/nowide
-# add_subdirectory(boost)
+
 find_package(Boost REQUIRED COMPONENTS system filesystem thread process)
 
 add_subdirectory(clipper)
 
 add_subdirectory(miniz)
 
-# add_subdirectory(glu-libtess)
 find_package(GLU REQUIRED)
 
 add_subdirectory(semver)
-#find_package(semver REQUIRED)
 
 add_subdirectory(libigl)
-#find_package(Libigl REQUIRED)
 
 add_subdirectory(hints)
 add_subdirectory(qoi)
@@ -47,14 +43,10 @@ endif ()
 if (SLIC3R_GUI)
     add_subdirectory(imgui)
 
-    # add_subdirectory(hidapi)
     find_package(hidapi REQUIRED)
 
     add_subdirectory(exif)
-    # find_package(EXIF REQUIRED)
-
     add_subdirectory(angelscript)
-    # find_package(Angelscript REQUIRED) 
 
     if(WIN32)
         message(STATUS "WXWIN environment set to: $ENV{WXWIN}")
