@@ -78,10 +78,30 @@ function check_operating_system() {
     fi
 }
 
+function check_available_memory_and_disk() {
+    FREE_MEM_GB=$(free -g -t | grep 'Mem:' | rev | cut -d" " -f1 | rev)
+    MIN_MEM_GB=3
+
+    FREE_DISK_KB=$(df -k . | tail -1 | awk '{print $4}')
+    MIN_DISK_KB=$((10 * 1024 * 1024))
+
+    if [ ${FREE_MEM_GB} -le ${MIN_MEM_GB} ]; then
+        echo -e "\nERROR: SuperSlicer Builder requires at least ${MIN_MEM_GB}G of 'available' mem (systen has only ${FREE_MEM_GB}G available)"
+        echo && free -h && echo
+        exit 2
+    fi
+
+    if [[ ${FREE_DISK_KB} -le ${MIN_DISK_KB} ]]; then
+        echo -e "\nERROR: SuperSlicer Builder requires at least $(echo ${MIN_DISK_KB} |awk '{ printf "%.1fG\n", $1/1024/1024; }') (systen has only $(echo ${FREE_DISK_KB} | awk '{ printf "%.1fG\n", $1/1024/1024; }') disk free)"
+        echo && df -h . && echo
+        exit 1
+    fi
+}
+
 function check_distribution() {
     DISTRIBUTION=$(awk -F= '/^ID=/ {print $2}' /etc/os-release)
     # treat ubuntu as debian
-    if [ "${DISTRIBUTION}" == "ubuntu" ] || [ "${DISTRIBUTION}" == "gentoo" ]
+    if [ "${DISTRIBUTION}" == "ubuntu" ] || [ "${DISTRIBUTION}" == "linuxmint" ]
     then
         DISTRIBUTION="debian"
     fi
@@ -157,7 +177,7 @@ fi
 
 # check installation of required packages or update when -u is set
 
-#source ./src/platform/unix/linux.d/${DISTRIBUTION}
+source ./src/platform/unix/linux.d/${DISTRIBUTION}
 
 if [[ -n "$FORCE_GTK2" ]]
 then
