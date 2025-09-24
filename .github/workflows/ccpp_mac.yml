@@ -37,6 +37,8 @@ jobs:
         make
         sudo make install
         automake --version
+    - name: Install Boost
+      run: brew install boost
     - name: mkdir in deps
       run: mkdir deps/build
     - name: dep cache
