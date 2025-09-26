@@ -11,35 +11,24 @@ on:
 jobs:
   build_dep:
     runs-on: macos-13
-    env:
-      BOOST_PREFIX: ${{ github.workspace }}/boost-cmake
-      CMAKE_BOOST_FLAGS: >-
-        -DBOOST_ROOT=${{ github.workspace }}/boost-cmake
-        -DBoost_NO_BOOST_CMAKE=ON
 
     steps:
     - uses: actions/checkout@v3
-
     - name: New cmake
       run: cmake --version
-
     - name: Setup cmake
       uses: jwlawson/actions-setup-cmake@v2
       with:
         cmake-version: "3.31.x"
-
     - name: Use cmake
       run: cmake --version
-
     - name: Install Autoconf
       run: |
         brew update
         brew install autoconf
-
-    - name: Check autoconf version
+    - name: check autoconf version
       run: autoconf --version
-
-    - name: Update automake for mpfr
+    - name: update automake for mpfr
       run: |
         curl -O -L https://github.com/supermerill/SuperSlicer_deps/releases/download/automake/automake-1.16.5.tar.gz
         tar -xzf automake-1.16.5.tar.gz
@@ -48,57 +37,35 @@ jobs:
         make
         sudo make install
         automake --version
-
-    - name: Build Boost with CMake
-      run: |
-        git clone https://github.com/boostorg/boost.git --branch boost-1.89.0 --depth 1
-        cd boost
-        git submodule update --init --depth 1
-        cmake -B build -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/boost-cmake \
-              -DBOOST_INCLUDE_LIBRARIES="system;filesystem;thread"
-        cmake --build build --target install
-
     - name: mkdir in deps
-      run: mkdir -p deps/build
-
+      run: mkdir deps/build
     - name: dep cache
       id: cache-action
       uses: actions/cache@v3
       with:
         key: macos_intel_2.7
         path: deps/build/destdir
-
     - if: steps.cache-action.outputs.cache-hit != 'true'
       name: build deps if new cache
-      run: ./BuildMacOS.sh -d $CMAKE_BOOST_FLAGS
+      run: ./BuildMacOS.sh -d
 
   build:
     runs-on: macos-13
     needs: build_dep
-    env:
-      BOOST_PREFIX: ${{ github.workspace }}/boost-cmake
-      CMAKE_BOOST_FLAGS: >-
-        -DBOOST_ROOT=${{ github.workspace }}/boost-cmake
-        -DBoost_NO_BOOST_CMAKE=ON
 
     steps:
     - uses: actions/checkout@v3
-
     - name: New cmake
       run: cmake --version
-
     - name: Setup cmake
       uses: jwlawson/actions-setup-cmake@v2
       with:
         cmake-version: "3.31.x"
-
     - name: Use cmake
       run: cmake --version
-
-    - name: Check autoconf version
+    - name: check autoconf version
       run: autoconf --version
-
-    - name: Update automake for mpfr
+    - name: update automake for mpfr
       run: |
         curl -O -L http://ftpmirror.gnu.org/automake/automake-1.16.5.tar.gz
         tar -xzf automake-1.16.5.tar.gz
@@ -107,26 +74,21 @@ jobs:
         make
         sudo make install
         automake --version
-
     - name: dep cache
       id: cache-action
       uses: actions/cache@v3
       with:
         key: macos_intel_2.7
         path: deps/build/destdir
-
-    - name: Build slicer
-      run: ./BuildMacOS.sh -siv $CMAKE_BOOST_FLAGS
-
-    - name: Upload artifact tgz
+    - name: build slicer
+      run: ./BuildMacOS.sh -siv
+    - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: nightly_${{ github.event.repository.name }}-macOS-intel.tgz
         path: build/${{ github.event.repository.name }}-macOS-intel.tgz
-
-    - name: Upload artifact dmg
+    - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: nightly_${{ github.event.repository.name }}-macOS-intel.dmg
         path: build/${{ github.event.repository.name }}-macOS-intel.dmg
-
