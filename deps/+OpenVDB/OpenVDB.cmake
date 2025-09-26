@@ -29,7 +29,4 @@ add_cmake_project(OpenVDB
         -DDISABLE_DEPENDENCY_VERSION_CHECKS=ON # Centos6 has old zlib
 )
 
-set(Boost_NO_BOOST_CMAKE ON)
-find_package(Boost 1.89 REQUIRED system)
-
 set(DEP_OpenVDB_DEPENDS TBB Blosc OpenEXR Boost)

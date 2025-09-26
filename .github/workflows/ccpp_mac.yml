@@ -11,6 +11,12 @@ on:
 jobs:
   build_dep:
     runs-on: macos-13
+    env:
+      BOOST_PREFIX: $(brew --prefix boost)
+      CMAKE_BOOST_FLAGS: >-
+        -DBOOST_ROOT=$(brew --prefix boost)
+        -DBoost_INCLUDE_DIR=$(brew --prefix boost)/include
+        -DBoost_LIBRARY_DIRS=$(brew --prefix boost)/lib
 
     steps:
     - uses: actions/checkout@v3
@@ -39,6 +45,10 @@ jobs:
         automake --version
     - name: Install Boost
       run: brew install boost
+    - name: Verify Boost install
+      run: |
+        ls $(brew --prefix boost)/include/boost/system
+        ls $(brew --prefix boost)/lib | grep system
     - name: mkdir in deps
       run: mkdir deps/build
     - name: dep cache
@@ -49,11 +59,17 @@ jobs:
         path: deps/build/destdir
     - if: steps.cache-action.outputs.cache-hit != 'true'
       name: build deps if new cache
-      run: ./BuildMacOS.sh -d
+      run: ./BuildMacOS.sh -d $CMAKE_BOOST_FLAGS
 
   build:
     runs-on: macos-13
     needs: build_dep
+    env:
+      BOOST_PREFIX: $(brew --prefix boost)
+      CMAKE_BOOST_FLAGS: >-
+        -DBOOST_ROOT=$(brew --prefix boost)
+        -DBoost_INCLUDE_DIR=$(brew --prefix boost)/include
+        -DBoost_LIBRARY_DIRS=$(brew --prefix boost)/lib
 
     steps:
     - uses: actions/checkout@v3
@@ -83,13 +99,13 @@ jobs:
         key: macos_intel_2.7
         path: deps/build/destdir
     - name: build slicer
-      run: ./BuildMacOS.sh -siv
-    - name: Upload artifact
+      run: ./BuildMacOS.sh -siv $CMAKE_BOOST_FLAGS
+    - name: Upload artifact tgz
       uses: actions/upload-artifact@v4
       with:
         name: nightly_${{ github.event.repository.name }}-macOS-intel.tgz
         path: build/${{ github.event.repository.name }}-macOS-intel.tgz
-    - name: Upload artifact
+    - name: Upload artifact dmg
       uses: actions/upload-artifact@v4
       with:
         name: nightly_${{ github.event.repository.name }}-macOS-intel.dmg
