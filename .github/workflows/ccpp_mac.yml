@@ -12,29 +12,33 @@ jobs:
   build_dep:
     runs-on: macos-13
     env:
-      BOOST_PREFIX: $(brew --prefix boost)
+      BOOST_PREFIX: ${{ github.workspace }}/boost-cmake
       CMAKE_BOOST_FLAGS: >-
-        -DBOOST_ROOT=$(brew --prefix boost)
-        -DBoost_INCLUDE_DIR=$(brew --prefix boost)/include
-        -DBoost_LIBRARY_DIRS=$(brew --prefix boost)/lib
+        -DBOOST_ROOT=${{ github.workspace }}/boost-cmake
 
     steps:
     - uses: actions/checkout@v3
+
     - name: New cmake
       run: cmake --version
+
     - name: Setup cmake
       uses: jwlawson/actions-setup-cmake@v2
       with:
         cmake-version: "3.31.x"
+
     - name: Use cmake
       run: cmake --version
+
     - name: Install Autoconf
       run: |
         brew update
         brew install autoconf
-    - name: check autoconf version
+
+    - name: Check autoconf version
       run: autoconf --version
-    - name: update automake for mpfr
+
+    - name: Update automake for mpfr
       run: |
         curl -O -L https://github.com/supermerill/SuperSlicer_deps/releases/download/automake/automake-1.16.5.tar.gz
         tar -xzf automake-1.16.5.tar.gz
@@ -43,20 +47,31 @@ jobs:
         make
         sudo make install
         automake --version
-    - name: Install Boost
-      run: brew install boost
-    - name: Verify Boost install
+
+    - name: Build Boost with CMake
       run: |
-        ls $(brew --prefix boost)/include/boost/system
-        ls $(brew --prefix boost)/lib | grep system
+        git clone https://github.com/boostorg/boost.git --branch boost-1.89.0 --depth 1
+        cd boost
+        git submodule update --init --depth 1
+        cmake -B build -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/boost-cmake \
+              -DBOOST_INCLUDE_LIBRARIES="system;filesystem;thread"
+        cmake --build build --target install
+
+    - name: Verify Boost CMake install
+      run: |
+        ls ${{ github.workspace }}/boost-cmake/lib/cmake/boost_system
+        ls ${{ github.workspace }}/boost-cmake/lib/cmake/boost_filesystem
+
     - name: mkdir in deps
       run: mkdir deps/build
+
     - name: dep cache
       id: cache-action
       uses: actions/cache@v3
       with:
         key: macos_intel_2.7
         path: deps/build/destdir
+
     - if: steps.cache-action.outputs.cache-hit != 'true'
       name: build deps if new cache
       run: ./BuildMacOS.sh -d $CMAKE_BOOST_FLAGS
@@ -65,25 +80,28 @@ jobs:
     runs-on: macos-13
     needs: build_dep
     env:
-      BOOST_PREFIX: $(brew --prefix boost)
+      BOOST_PREFIX: ${{ github.workspace }}/boost-cmake
       CMAKE_BOOST_FLAGS: >-
-        -DBOOST_ROOT=$(brew --prefix boost)
-        -DBoost_INCLUDE_DIR=$(brew --prefix boost)/include
-        -DBoost_LIBRARY_DIRS=$(brew --prefix boost)/lib
+        -DBOOST_ROOT=${{ github.workspace }}/boost-cmake
 
     steps:
     - uses: actions/checkout@v3
+
     - name: New cmake
       run: cmake --version
+
     - name: Setup cmake
       uses: jwlawson/actions-setup-cmake@v2
       with:
         cmake-version: "3.31.x"
+
     - name: Use cmake
       run: cmake --version
-    - name: check autoconf version
+
+    - name: Check autoconf version
       run: autoconf --version
-    - name: update automake for mpfr
+
+    - name: Update automake for mpfr
       run: |
         curl -O -L http://ftpmirror.gnu.org/automake/automake-1.16.5.tar.gz
         tar -xzf automake-1.16.5.tar.gz
@@ -92,21 +110,26 @@ jobs:
         make
         sudo make install
         automake --version
+
     - name: dep cache
       id: cache-action
       uses: actions/cache@v3
       with:
         key: macos_intel_2.7
         path: deps/build/destdir
-    - name: build slicer
+
+    - name: Build slicer
       run: ./BuildMacOS.sh -siv $CMAKE_BOOST_FLAGS
+
     - name: Upload artifact tgz
       uses: actions/upload-artifact@v4
       with:
         name: nightly_${{ github.event.repository.name }}-macOS-intel.tgz
         path: build/${{ github.event.repository.name }}-macOS-intel.tgz
+
     - name: Upload artifact dmg
       uses: actions/upload-artifact@v4
       with:
         name: nightly_${{ github.event.repository.name }}-macOS-intel.dmg
         path: build/${{ github.event.repository.name }}-macOS-intel.dmg
+
