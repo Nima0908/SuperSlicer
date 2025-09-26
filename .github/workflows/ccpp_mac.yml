@@ -15,6 +15,7 @@ jobs:
       BOOST_PREFIX: ${{ github.workspace }}/boost-cmake
       CMAKE_BOOST_FLAGS: >-
         -DBOOST_ROOT=${{ github.workspace }}/boost-cmake
+        -DBoost_NO_BOOST_CMAKE=ON
 
     steps:
     - uses: actions/checkout@v3
@@ -57,13 +58,8 @@ jobs:
               -DBOOST_INCLUDE_LIBRARIES="system;filesystem;thread"
         cmake --build build --target install
 
-    - name: Verify Boost CMake install
-      run: |
-        ls ${{ github.workspace }}/boost-cmake/lib/cmake/boost_system
-        ls ${{ github.workspace }}/boost-cmake/lib/cmake/boost_filesystem
-
     - name: mkdir in deps
-      run: mkdir deps/build
+      run: mkdir -p deps/build
 
     - name: dep cache
       id: cache-action
@@ -83,6 +79,7 @@ jobs:
       BOOST_PREFIX: ${{ github.workspace }}/boost-cmake
       CMAKE_BOOST_FLAGS: >-
         -DBOOST_ROOT=${{ github.workspace }}/boost-cmake
+        -DBoost_NO_BOOST_CMAKE=ON
 
     steps:
     - uses: actions/checkout@v3
