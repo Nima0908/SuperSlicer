@@ -24,7 +24,9 @@ jobs:
     - name: update apt
       run: sudo apt update
     - name: install gtk3
-      run: sudo apt install libgtk-3-dev
+      run: sudo apt install libgtk-3-dev 
+    - name: Install hidapi
+      run: sudo apt install libhidapi-dev
     - name: install libs
       run: sudo ./BuildLinux.sh -u
     - name: dep cache
