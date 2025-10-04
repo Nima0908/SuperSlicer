@@ -25,8 +25,6 @@ jobs:
       run: sudo apt update
     - name: install gtk2
       run: sudo apt install libgtk2.0-dev
-    - name: Install hidapi
-      run: sudo apt install hidapi
     - name: install libs
       run: sudo ./BuildLinux.sh -u
     - name: dep cache

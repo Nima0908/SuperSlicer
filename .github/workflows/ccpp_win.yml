@@ -45,8 +45,6 @@ jobs:
       run: |
         copy version.inc version.date.inc
         (Get-Content version.date.inc) | Foreach-Object {$_ -replace "\+UNKNOWN", ("-" + [datetime]::Today.ToString("yyyy-MM-dd"))} | Set-Content version.date.inc
-    - name: Install hidapi
-      run: choco install hidapi -y
     - name: dep cache
       id: cache-action
       uses: actions/cache@v3

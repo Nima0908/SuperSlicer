@@ -47,10 +47,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Install hidapi
-      run: |
-        brew update
-        brew install hidapi
     - name: dep cache
       id: cache-action
       uses: actions/cache@v3

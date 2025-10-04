@@ -31,8 +31,8 @@ if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.24)
     cmake_policy(SET CMP0135 NEW)
 endif ()
 
-# Redefine BUILD_SHARED_LIBS with default being OFF
-option(BUILD_SHARED_LIBS "Build shared libraries instead of static (experimental)" OFF)
+# Redefine BUILD_SHARED_LIBS with default being ON
+option(BUILD_SHARED_LIBS "Build shared libraries instead of static (experimental)" ON)
 
 # List libraries to be excluded from build
 set(${PROJECT_NAME}_PACKAGE_EXCLUDES "" CACHE STRING "Exclude packages matching this regex pattern")
