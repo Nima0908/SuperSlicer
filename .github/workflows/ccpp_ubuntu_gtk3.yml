@@ -25,12 +25,16 @@ jobs:
       run: sudo apt update
     - name: install gtk3
       run: sudo apt install libgtk-3-dev 
-    - name: Install hidapi
+    - name: Install hidapi from source
       run: |
-        sudo apt update
-        sudo apt install -y libhidapi-dev libhidapi-libusb0 libhidapi-hidraw0
-        # Also try the hidapi package with different backends
-        sudo apt install -y libhidapi-dev libhidapi-libusb0 libhidapi-hidraw0 libhidapi-hidraw-dev
+        sudo apt install -y libudev-dev libusb-1.0-0-dev
+        git clone https://github.com/libusb/hidapi.git
+        cd hidapi
+        ./bootstrap
+        ./configure
+        make
+        sudo make install
+        sudo ldconfig
     - name: install libs
       run: sudo ./BuildLinux.sh -u
     - name: dep cache
